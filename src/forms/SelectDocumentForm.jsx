@@ -14,14 +14,12 @@ export default function SelectDocumentForm({ documentTypeValue, onDocumentTypeCh
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} md={6}>
           <Select
-            required
             id="documentType"
             name="documentType"
             label="Document Type"
             value={documentTypeValue}
             onChange={onDocumentTypeChange}
             fullWidth
-            variant="standard"
           >
             <MenuItem value="rin">RIN</MenuItem>
           </Select>

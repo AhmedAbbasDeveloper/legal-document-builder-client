@@ -21,7 +21,7 @@ export default function Form() {
   const [documentType, setDocumentType] = useState('');
   const [data, setData] = useState({});
 
-  function generateDocument() {
+  const generateDocument = () => {
     apiClient.post(
       `/${documentType}`,
       data,
@@ -34,8 +34,8 @@ export default function Form() {
       document.body.appendChild(link);
       link.click();
       window.URL.revokeObjectURL(url);
-    }).catch((error) => console.log(error));
-  }
+    });
+  };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
@@ -57,36 +57,37 @@ export default function Form() {
     setActiveStep(activeStep + 1);
   };
 
-  function getDataTemplate(docType) {
+  const getDataTemplate = (docType) => {
     switch (docType) {
       case 'rin':
         return {
           name: '',
           companyName: '',
+          phoneNumber: '',
+          date: '',
           address: '',
           city: '',
-          province: '',
           postalCode: '',
-          phoneNumber: '',
         };
       default:
         throw new Error('Unknown document type');
     }
-  }
+  };
 
-  function changeDocType(docType) {
-    setDocumentType(docType);
-    setData(getDataTemplate(docType));
-  }
+  const handleDocumentTypeChange = (event) => {
+    const newDocumentType = event.target.value;
+    setDocumentType(newDocumentType);
+    setData(getDataTemplate(newDocumentType));
+  };
 
-  function getFormContent(docType) {
+  const getFormContent = (docType) => {
     switch (docType) {
       case 'rin':
         return <RinForm dataValue={data} onChange={setData} />;
       default:
         throw new Error('Unknown document type');
     }
-  }
+  };
 
   return (
     <>
@@ -116,7 +117,7 @@ export default function Form() {
           {activeStep === 0 && (
             <SelectDocumentForm
               documentTypeValue={documentType}
-              onDocumentTypeChange={(e) => changeDocType(e.target.value)}
+              onDocumentTypeChange={handleDocumentTypeChange}
             />
           )}
 
