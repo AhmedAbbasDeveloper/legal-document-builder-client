@@ -1,34 +1,28 @@
 import React from 'react';
 
 import { Grid, TextField, Typography } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function AddressForm({ dataValue, onChange }) {
+export default function RinForm({ dataValue, onChange }) {
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const newData = event?.$d ? { date: event.$d } : { [event.target.name]: event.target.value };
     onChange((prevData) => ({
       ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const setDate = (date) => {
-    onChange((prevData) => ({
-      ...prevData,
-      date: date.$d,
+      ...newData,
     }));
   };
 
   return (
     <>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6">
         Enter your information
       </Typography>
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="name"
             name="name"
             label="Name"
             value={dataValue.name}
@@ -38,7 +32,6 @@ export default function AddressForm({ dataValue, onChange }) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="companyName"
             name="companyName"
             label="Company Name"
             value={dataValue.companyName}
@@ -48,7 +41,6 @@ export default function AddressForm({ dataValue, onChange }) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="phoneNumber"
             name="phoneNumber"
             label="Phone Number"
             value={dataValue.phoneNumber}
@@ -57,18 +49,18 @@ export default function AddressForm({ dataValue, onChange }) {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <DatePicker
-            id="date"
-            name="date"
-            label="Date"
-            value={dataValue.date}
-            onChange={setDate}
-            fullWidth
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              name="date"
+              label="Date"
+              value={dataValue.date}
+              onChange={handleChange}
+              fullWidth
+            />
+          </LocalizationProvider>
         </Grid>
         <Grid item xs={12}>
           <TextField
-            id="address"
             name="address"
             label="Address"
             value={dataValue.address}
@@ -78,7 +70,6 @@ export default function AddressForm({ dataValue, onChange }) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="city"
             name="city"
             label="City"
             value={dataValue.city}

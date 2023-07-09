@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Box,
   Container,
   CssBaseline,
   Paper,
@@ -8,9 +9,6 @@ import {
   Typography,
   createTheme,
 } from '@mui/material';
-
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -20,12 +18,18 @@ const theme = createTheme();
 
 export default function App() {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
         <Header />
 
-        <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+        <Container component="main" maxWidth="sm">
           <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
             <Typography component="h1" variant="h4" align="center">
               Legal Document Generator
@@ -33,10 +37,10 @@ export default function App() {
 
             <Form />
           </Paper>
-
-          <Footer />
         </Container>
-      </ThemeProvider>
-    </LocalizationProvider>
+
+        <Footer />
+      </Box>
+    </ThemeProvider>
   );
 }

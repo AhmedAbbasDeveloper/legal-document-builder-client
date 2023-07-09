@@ -1,23 +1,19 @@
 import React from 'react';
 
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import {
+  AppBar, Box, Toolbar, Typography,
+} from '@mui/material';
 
 export default function Header() {
   return (
-    <AppBar
-      position="absolute"
-      color="default"
-      elevation={0}
-      sx={{
-        position: 'relative',
-        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-      }}
-    >
-      <Toolbar>
-        <Typography variant="h6" color="inherit" noWrap>
-          Chinoy Law
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <Box sx={{ pb: 1.25 }}>
+      <AppBar position="relative" sx={{ p: 1.4 }}>
+        <Toolbar>
+          <Typography variant="h4" sx={{ flexGrow: 1 }}>
+            Legal Document Generator
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }

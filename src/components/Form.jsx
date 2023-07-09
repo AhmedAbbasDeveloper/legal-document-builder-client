@@ -14,12 +14,12 @@ import RinForm from '../forms/RinForm';
 
 import apiClient from '../clients/api-client';
 
-const steps = ['Document selection', 'Information collection'];
-
 export default function Form() {
   const [activeStep, setActiveStep] = useState(0);
   const [documentType, setDocumentType] = useState('');
   const [data, setData] = useState({});
+
+  const steps = ['Document selection', 'Information collection'];
 
   const generateDocument = () => {
     apiClient.post(
@@ -46,7 +46,7 @@ export default function Form() {
       return;
     }
 
-    if (activeStep === 1 && Object.values(data).some((value) => value === '')) {
+    if (activeStep === 1 && (Object.values(data).some((value) => value === '') || data.date === null)) {
       return;
     }
 
@@ -64,7 +64,7 @@ export default function Form() {
           name: '',
           companyName: '',
           phoneNumber: '',
-          date: '',
+          date: null,
           address: '',
           city: '',
           postalCode: '',
@@ -101,15 +101,13 @@ export default function Form() {
 
       {activeStep === steps.length ? (
         <>
-          <Typography variant="h5" gutterBottom>
-            Thanks for using Legal Document Generator.
+          <Typography variant="h5">
+            Thank you for using the Legal Document Generator.
           </Typography>
           <Typography variant="subtitle1">
-            Your document should be downloading now. Click
-            {' '}
+            {'Your document should be downloading now. Click '}
             <a href="/" onClick={() => setActiveStep(0)}>here</a>
-            {' '}
-            to prepare another document.
+            {' to prepare another document.'}
           </Typography>
         </>
       ) : (
