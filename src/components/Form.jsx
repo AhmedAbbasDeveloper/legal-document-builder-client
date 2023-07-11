@@ -9,6 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 
+import { saveAs } from 'file-saver';
+
 import SelectDocumentForm from '../forms/SelectDocumentForm';
 import RinForm from '../forms/RinForm';
 
@@ -25,16 +27,12 @@ export default function Form() {
     apiClient.post(
       `/${documentType}`,
       data,
-      { responseType: 'arraybuffer' },
-    ).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'output.docx');
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+      { responseType: 'blob' },
+    )
+      .then((response) => {
+        const fileName = response.headers['content-disposition'].match(/filename="(.+)"/)[1];
+        saveAs(response.data, fileName);
+      });
   };
 
   const handleBack = () => {
